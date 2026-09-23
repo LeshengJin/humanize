@@ -335,7 +335,7 @@ def test_the_window_is_the_backend_s_own_and_the_environment_outranks_it(
 
 def test_what_survives_a_transport_going_down_is_written_where_the_facts_are() -> None:
     """Which backends resume is said where the facts are, not guessed at by a watchdog."""
-    assert all(one.resumes for one in backends.PROFILES)
+    assert {one.name for one in backends.PROFILES if not one.resumes} == {"omnigent"}
     assert all(one.restarts for one in backends.PROFILES)
     # An app server is one per agent: putting it down for one wedged turn ends its siblings,
     # which is what the watchdog has to say before it does it.

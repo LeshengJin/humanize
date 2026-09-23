@@ -11,6 +11,11 @@ provider API key is needed for them.
 The exception ships inside it: DeepSeek Harness arrives as an SDK-backed agent and uses its
 own DeepSeek provider credentials because it has no subscription login to reuse.
 
+Omnigent is driven as one atomic execution. Humanize invokes
+`omnigent run --no-session --json`, reads the final receipt, and does not keep a server,
+runner, or resumable conversation. The executable may be a launcher that puts the execution
+in a fresh container.
+
 <HmzBackends />
 
 ## An agent is four things

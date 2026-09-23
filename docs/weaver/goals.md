@@ -32,6 +32,7 @@ while True:
 | Codex | yes |
 | DeepSeek Harness | yes |
 | Kimi Code | yes |
+| Omnigent | yes, for its one supervisory execution |
 | ZCode | yes |
 | pi, opencode, mimocode | no |
 

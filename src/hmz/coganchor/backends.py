@@ -1847,6 +1847,22 @@ PROFILES = (
         ),
     ),
     Profile(
+        name="omnigent",
+        aliases=("omnigent",),
+        home_var="",
+        home_dir=".omnigent",
+        logs=(),
+        efforts=(_UNSAID,),
+        installs="pip install omnigent",
+        # The DBX launcher supplies a fresh container per invocation. The execution id in
+        # the receipt is for tracing; there is deliberately no later turn to resume.
+        resumes=False,
+        forks=False,
+        # Omnigent's own headless loop times out after thirty minutes. Humanize must leave
+        # that timeout in charge rather than kill a healthy, quiet supervisor first.
+        silence=2100.0,
+    ),
+    Profile(
         name="mimo",
         installs="npm i -g @mimo-ai/cli",
         # The one place mimocode differs from opencode in a way that matters here: what it is
