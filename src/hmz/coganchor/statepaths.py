@@ -82,6 +82,10 @@ PROFILES: tuple[AgentProfile, ...] = (
         ),
     ),
     AgentProfile(
+        name="omnigent",
+        state_paths=("~/.omnigent",),
+    ),
+    AgentProfile(
         name="mimo",
         state_paths=(
             "~/.mimocode",

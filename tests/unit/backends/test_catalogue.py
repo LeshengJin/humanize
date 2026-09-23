@@ -321,6 +321,7 @@ _COUNTING: dict[str, set[str]] = {
     "kimi": {"input", "output", "cache_read", "cache_write"},
     "mimo": {"input", "output", "cache_read", "cache_write", "reasoning"},
     "opencode": {"input", "output", "cache_read", "cache_write", "reasoning"},
+    "omnigent": {"input", "output", "cache_read", "cache_write"},
     "pi": {"input", "output", "cache_read", "cache_write"},
     "qwen": {"input", "output", "cache_read", "cache_write"},
     "zcode": {"input", "output"},
@@ -373,12 +374,10 @@ def test_every_name_a_backends_own_facts_come_to_is_in_the_catalogue() -> None:
         assert one.backends == (
             frozenset() if tagged == frozenset(DRIVEN) else tagged
         ), name
-    # `resume` is every CLI here, so it is named against none of them: an empty set is how
-    # this catalogue says "all of them", and one listed against twelve names would read as
-    # something a CLI somebody added by hand does not have.
+    # Omnigent is one atomic execution; every other built-in backend resumes.
     told = {one.name: one.backends for one in catalogue()}
 
-    assert told["resume"] == frozenset()
+    assert told["resume"] == frozenset(DRIVEN) - {"omnigent"}
     assert told["swarm"] == {"kimi"}
 
 
@@ -429,9 +428,8 @@ def test_a_rung_is_named_against_exactly_the_backends_that_take_it() -> None:
         assert told[rung(permission)] == (
             frozenset() if taking == frozenset(DRIVEN) else taking
         ), permission
-    # dsh is the one driven backend that cannot be held below `bypass`, and it is the only
-    # one missing from the three narrower rungs.
-    assert frozenset(DRIVEN) - told[rung("read-only")] == {"dsh"}
+    # dsh and Omnigent cannot be held below `bypass`.
+    assert frozenset(DRIVEN) - told[rung("read-only")] == {"dsh", "omnigent"}
     # And `bypass` is every backend there is, which the catalogue says by naming none: a CLI
     # somebody added by hand is in no `DRIVEN` table, and it takes that rung too.
     assert told[rung("bypass")] == frozenset()
